@@ -1,0 +1,79 @@
+@import url(https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css);
+
+:root {
+    --calendar-size: 300px;
+}
+
+.calendar {
+  position: relative;
+  width: var(--calendar-size);
+  height: calc(var(--calendar-size) * 9/7);
+  background-color: #fff;
+  margin: 40px auto;
+  border-radius: 8px;
+  box-shadow: 0 0 8px 8px rgba(0, 0, 0, 0.1);
+  /* border: 1px solid red; */
+}
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    width: var(--calendar-size);
+    height: calc(var(--calendar-size) * 1.8/7);
+    padding: 10px;
+    color: #fff;
+    border-radius: 8px 8px 0 0;
+    background: rgb(68, 195, 121);
+    /* border: 1px solid red; */
+}
+.nav-txt {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    /* height: calc(var(--calendar-size) * 2/7 - 20px); */
+    /* border: 1px solid red; */
+}
+.nav-txt p {
+    margin: 0;
+}
+.nav-txt .month {
+    font-size: calc(var(--calendar-size) * 0.06);
+    margin-bottom: 4px;
+}
+.nav-txt .year {
+    font-size: calc(var(--calendar-size) * 0.04);
+}
+
+.calendar-nav .btn {
+    height: calc(var(--calendar-size) * 1.8/7 - 20px);
+    padding: 16px;
+    border: 0;
+    color: #fff;
+    background: rgb(68, 195, 121);
+    cursor: pointer;
+    /* border: 1px solid red; */
+}
+.calendar-grid {
+    width: var(--calendar-size);
+    height: var(--calendar-size);
+    display: grid;
+    grid-template-rows: repeat(7, 1fr);
+    grid-template-columns: repeat(7, 1fr);
+    padding: 10px;
+    /* border: 1px solid red; */
+}
+.day-col {
+    text-align: center;
+    font-size: calc(var(--calendar-size) * 0.04);
+    color: rgb(205, 205, 205);
+    border: 1px solid red;
+}
+.date-col {
+    border: 1px solid red;
+}
+.date-sun {
+    color: red;
+}
+.date-sat {
+    color: blue;
+}
