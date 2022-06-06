@@ -8,65 +8,100 @@ const Calender = $container => {
                         </div>
                     <button class="btn btn-next"><i class="bx bxs-right-arrow btn-next"></i></button>
                     </div>
-                    <div class="calendar-grid"></div>`;
+                    <div class="calendar-grid">
+                        <div class="days">
+                            <div class="day">SUN</div>
+                            <div class="day">MON</div>
+                            <div class="day">TUE</div>
+                            <div class="day">WED</div>
+                            <div class="day">THU</div>
+                            <div class="day">FRI</div>
+                            <div class="day">SAT</div>
+                        </div>
+                        <div class="dates"></div>
+                    </div>`;
     $container.innerHTML = calender;
 
-    let $today = new Date();
-    let $year;
-    let $month;
-    let $date;
-    let $n = 0;
-    
-    function setCalender(now, N) {
-        $today = new Date(now.setMonth(now.getMonth() + N));
-        $year = $today.getFullYear();
-        $month = $today.toLocaleString("en-US", { month: "long" });
-        $date = $today.getDate();
-    }
-    function setNav(month, year) {
-        document.querySelectorAll('.nav-txt').forEach(ele => ele.innerHTML = `<p class="month">`+ $month +`</p><p class="year">`+ $year +`</p>`);
-    }
-    function setGrid(today) {
-        document.querySelectorAll('.calendar-grid').forEach($gridbox => {
-            let gridInner = `<div class="day-col day-sun">SUN</div>
-                             <div class="day-col day-mon">MON</div>
-                             <div class="day-col day-tue">TUE</div>
-                             <div class="day-col day-wed">WED</div>
-                             <div class="day-col day-thu">THU</div>
-                             <div class="day-col day-fri">FRI</div>
-                             <div class="day-col day-sat">SAT</div>`
-            for (let i=0; i<6; i++ ) {
-                gridInner += `<div class="date-col date-sun"></div>
-                              <div class="date-col date-mon"></div>
-                              <div class="date-col date-tue"></div>
-                              <div class="date-col date-wed"></div>
-                              <div class="date-col date-thu"></div>
-                              <div class="date-col date-thu"></div>
-                              <div class="date-col date-thu"></div>`
-            }
-            $gridbox.innerHTML = gridInner;
-        });
+
+    let today;
+    let thisMonth;
+
+    let currentYear;
+    let currentMonth;
+    let currentDate;
+
+    function renderCalender($thisMonth) {
+        // 렌더링을 위한 데이터 정리
+        currentYear = $thisMonth.getFullYear();
+        currentMonth = $thisMonth.getMonth();
+        currentDate = $thisMonth.getDate();
+
+        // 이전 달의 마지막 날 날짜와 요일 구하기
+        let startDay = new Date(currentYear, currentMonth, 0);
+        let prevDate = startDay.getDate();
+        let prevDay = startDay.getDay();
+        // 이번 달의 마지막날 날짜와 요일 구하기
+        let endDay = new Date(currentYear, currentMonth + 1, 0);
+        let nextDate = endDay.getDate();
+        let nextDay = endDay.getDay();
+        console.log(prevDate, prevDay, nextDate, nextDay);
+
+        // Year, Month 표기
+        document.querySelectorAll('.month').forEach(ele => {
+          ele.innerHTML = `${today.toLocaleString("en-US", { month: "long" })}`
+        })
+        document.querySelectorAll('.year').forEach(ele => {
+          ele.innerHTML = `${currentYear}`
+        })
+
+        // Date 표기
+        const calendar = document.querySelectorAll('.dates');
+        calendar.forEach(ele => {
+          ele.innerHTML = ''
+          // 지난달
+          for (let i = prevDate - prevDay; i <= prevDate; i++) {
+            ele.innerHTML += `<div class="date prev disable">${i}</div>`
+          }
+          // 이번달
+          for (let i = 1; i <= nextDate; i++) {
+            ele.innerHTML += `<div class="date current">${i}</div>`
+          }
+          // // 다음달
+          for (let i = 1; i <= (7 - nextDay == 1 ? 0 : 7 - nextDay-1); i++) {
+            ele.innerHTML += `<div class="date next disable">${i}</div>`
+          }
+        })
+
     }
 
-    $container.addEventListener("click", (event) => {
+
+    function calendarInit() {
+        today = new Date();
+        thisMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        renderCalender(thisMonth);
+    }
+
+    // 캘린터 초기 세팅
+    window.addEventListener('DOMContentLoaded', () => {
+        calendarInit();
+    })
+
+
+    // 클릭 이벤트 
+    $container.addEventListener('click', (event) => {
         if (event.target.classList.contains('btn-prev')) {
-            // console.log('prev')
-            $n = -1
+            console.log('prev');
+            // renderCalender(thisMonth);
+            thisMonth = new Date(currentYear, currentMonth - 1, 1);
+            renderCalender(thisMonth);
         }
         if (event.target.classList.contains('btn-next')) {
-            // console.log('next')
-            $n = 1
+            console.log('next');
+            // renderCalender(thisMonth);
+            thisMonth = new Date(currentYear, currentMonth + 1, 1);
+            renderCalender(thisMonth);
+            
         }
-        setCalender($today, $n);
-        setNav($month, $year);
-        // console.log(`$n : ${$n} \n$today : ${$today}`);
-        console.log(`$n : ${$n} \n${$year}-${$today.getMonth()+1}-${$date}`);
-    });
-
-    window.addEventListener('DOMContentLoaded', () => {
-        setCalender($today, $n);
-        setNav($month, $year);
-        setGrid();
     })
 
 } 
