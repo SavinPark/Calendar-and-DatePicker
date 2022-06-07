@@ -1,5 +1,6 @@
 @import url(https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css);
 
+/* Calendar */
 :root {
     --calendar-size: 300px;
 }
@@ -12,8 +13,14 @@
   margin: 40px auto;
   border-radius: 8px;
   box-shadow: 0 0 8px 8px rgba(0, 0, 0, 0.1);
-  /* border: 1px solid red; */
 }
+
+/* test */
+.calendar.active {
+    border: 2px solid red;
+}
+/* test */
+
 .calendar-nav {
     display: flex;
     justify-content: space-between;
@@ -23,15 +30,12 @@
     color: #fff;
     border-radius: 8px 8px 0 0;
     background: rgb(68, 195, 121);
-    /* border: 1px solid red; */
 }
 .nav-txt {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    /* height: calc(var(--calendar-size) * 2/7 - 20px); */
-    /* border: 1px solid red; */
 }
 .nav-txt p {
     margin: 0;
@@ -58,31 +62,29 @@
     height: var(--calendar-size);
     display: grid;
     grid-template-rows: 1fr 6fr;
-    /* grid-template-columns: repeat(7, 1fr); */
-    padding: 10px;
-    /* border: 1px solid red; */
+    padding: 5px 0;
 }
 
-.days {
+.days,
+.dates {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    /* grid-template-rows: repeat(7, 1fr); */
 }
 .day,
 .date {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(var(--calendar-size)/7);
+    height: calc(var(--calendar-size)/7);
     font-size: calc(var(--calendar-size) * 0.04);
     color: rgb(205, 205, 205);
     /* border: 1px solid red; */
 }
 
-.dates {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    /* grid-template-rows: repeat(6, 1fr); */
-}
 .date {
     color: rgb(0, 0, 0);
+    cursor: pointer;
 }
 .date.current:nth-child(7n+1) {
     color: red;
@@ -91,14 +93,20 @@
 .disable {
     color: rgb(205, 205, 205);
 }
-
-
-/* .date-col {
-    border: 1px solid red;
+.today {
+    border: 1px solid rgb(68, 195, 121);
+    border-radius: calc(var(--calendar-size)/7/2);
 }
-.date-sun {
-    color: red;
+
+/* Date Picker */
+.date-picker {
+    display: block;
+    width: 200px;
+    height: 40px;
+    margin: 40px auto;
+    padding: 10px;
 }
-.date-sat {
-    color: blue;
-} */
+.date-picker:focus {
+    border: 1px solid rgb(55, 0, 255);
+    outline: none;
+}
