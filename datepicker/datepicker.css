@@ -1,0 +1,12 @@
+/* Date Picker */
+.datepicker-input {
+    display: block;
+    width: 200px;
+    height: 40px;
+    margin: 40px auto;
+    padding: 10px;
+}
+.datepicker-input.focused {
+    border: 1px solid rgb(55, 0, 255);
+    outline: none;
+}

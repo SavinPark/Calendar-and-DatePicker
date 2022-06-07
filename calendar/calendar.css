@@ -89,6 +89,11 @@
 .date.current:nth-child(7n+1) {
     color: red;
 }
+.date.picked {
+    color: #fff;
+    background-color: rgb(68, 195, 121);
+    border-radius: calc(var(--calendar-size)/7/2);
+}
 
 .disable {
     color: rgb(205, 205, 205);
@@ -96,17 +101,4 @@
 .today {
     border: 1px solid rgb(68, 195, 121);
     border-radius: calc(var(--calendar-size)/7/2);
-}
-
-/* Date Picker */
-.date-picker {
-    display: block;
-    width: 200px;
-    height: 40px;
-    margin: 40px auto;
-    padding: 10px;
-}
-.date-picker:focus {
-    border: 1px solid rgb(55, 0, 255);
-    outline: none;
 }

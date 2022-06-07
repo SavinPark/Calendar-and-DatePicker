@@ -22,6 +22,7 @@ const Calender = $container => {
                     </div>`;
   $container.innerHTML = calender;
   
+
   let today
   let thisMonth;
 
@@ -29,16 +30,16 @@ const Calender = $container => {
   let currentMonth;
   let currentDate;
 
-  window.addEventListener('DOMContentLoaded', () => {
-    calendarInit();
-  })
+  calendarInit();
 
+  // calendarInit() : 오늘 날짜 구하고 renderCalender에 전달
   function calendarInit() {
     today = new Date();
     thisMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     renderCalender(thisMonth);
   }
 
+  // renderCalender() : 인자로 전달된 날짜를 기준으로 달력에 날짜 렌더링
   function renderCalender($thisMonth) {
     // 렌더링을 위한 데이터 정리
     currentYear = $thisMonth.getFullYear();
@@ -66,29 +67,50 @@ const Calender = $container => {
       ele.innerHTML = '';
       // 지난달
       for (let i = prevDate - prevDay; i <= prevDate; i++) {
-        ele.innerHTML += `<div class="date prev disable"  id=${currentYear}-${currentMonth}-${i}>${i}</div>`
+        let $id = getYYYYMMDD(currentYear, currentMonth, i)
+        ele.innerHTML += `<div class="date prev disable" id=${$id}>${i}</div>`
       }
       // 이번달
       for (let i = 1; i <= nextDate; i++) {
+        let $id = getYYYYMMDD(currentYear, currentMonth + 1, i)
         if(currentMonth == today.getMonth() && i == today.getDate()) {
-            ele.innerHTML += `<div class="date current today" id=${currentYear}-${currentMonth+1}-${i}>${i}</div>`
+            ele.innerHTML += `<div class="date current today" id=${$id}>${i}</div>`
         } else {
-            ele.innerHTML += `<div class="date current" id=${currentYear}-${currentMonth+1}-${i}>${i}</div>`
+            ele.innerHTML += `<div class="date current" id=${$id}>${i}</div>`
         }
       }
-     // 다음달
-    //   for (let i = 1; i <= (7 - nextDay == 1 ? 0 : 7 - nextDay-1); i++) {
+      // 다음달
+      // for (let i = 1; i <= (7 - nextDay == 1 ? 0 : 7 - nextDay-1); i++) {
       for (let i = 1; i <= (6 - nextDay == 0 ? 0 : 6 - nextDay); i++) {
-        ele.innerHTML += `<div class="date next disable"  id=${currentYear}-${currentMonth+2}-${i}>${i}</div>`
+        let $id = getYYYYMMDD(currentYear, currentMonth + 2, i)
+        ele.innerHTML += `<div class="date next disable"  id=${$id}>${i}</div>`
       }
     })
-
+  }
+  
+  // getYYYYMMDD() : yyyy-mm-dd 포맷으로 날짜 리턴
+  function getYYYYMMDD($year, $month, $date) {
+    let yyyy = $year;
+    let mm = ("0" + $month).slice(-2);
+    let dd = ("0" + $date).slice(-2);
+    return yyyy + "-" + mm + "-" + dd;
   }
 
   // 클릭 이벤트
   $container.querySelectorAll('.dates').forEach(date => {
     date.addEventListener('click', (event) => {
-      console.log(event.target.getAttribute('id'));
+      // console.log(event.target.getAttribute('id'));
+      $container.querySelectorAll('.picked').forEach(ele => {
+        ele.classList.remove('picked');
+      })
+      event.target.classList.add('picked');
+      // $container.classList = 'calendar';
+      // $container.classList.add(event.target.getAttribute('id'));
+
+      // 커스텀 이벤트 : date-change
+      $container.setAttribute('date', event.target.getAttribute('id'));
+      let e = new CustomEvent("date-change", {detail: $container.getAttribute('date')});
+      $container.dispatchEvent(e);
     })
   })
   $container.querySelector('.btn-prev').addEventListener('click', (event) => {
