@@ -120,12 +120,12 @@ const Calender = ($container, $datepicker) => {
       $container.dispatchEvent(e);
     })
   })
-  $container.querySelector('.btn-prev').addEventListener('click', (event) => {
+  $container.querySelector('.btn-prev').addEventListener('click', () => {
     // console.log('prev');
     thisMonth = new Date(currentYear, currentMonth - 1, 1);
     renderCalender(thisMonth);
   })
-  $container.querySelector('.btn-next').addEventListener('click', (event) => {
+  $container.querySelector('.btn-next').addEventListener('click', () => {
     // console.log('next');
     thisMonth = new Date(currentYear, currentMonth + 1, 1);
     renderCalender(thisMonth);
