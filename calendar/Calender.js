@@ -1,4 +1,4 @@
-const Calender = $container => {
+const Calender = ($container, $datepicker) => {
 
   const calender = `<div class="calendar-nav">
                       <button class="btn btn-prev"><i class="bx bxs-left-arrow btn-prev" ></i></button>
@@ -30,17 +30,20 @@ const Calender = $container => {
   let currentMonth;
   let currentDate;
 
-  calendarInit();
+  calendarInit($datepicker);
 
-  // calendarInit() : 오늘 날짜 구하고 renderCalender에 전달
-  function calendarInit() {
+  // calendarInit() : 오늘 날짜 구하고 renderCalender에 전달, $datepicker 존재시 $datepicker 기준으로 날짜 설정 
+  function calendarInit($datepicker) {
     today = new Date();
     thisMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    renderCalender(thisMonth);
+    if ($datepicker) {
+      thisMonth = new Date($datepicker.substr(0, 4),$datepicker.substr(5,2)-1, $datepicker.substr(8,2)); // yyyy-mm-dd
+    }
+    renderCalender(thisMonth, $datepicker);
   }
 
   // renderCalender() : 인자로 전달된 날짜를 기준으로 달력에 날짜 렌더링
-  function renderCalender($thisMonth) {
+  function renderCalender($thisMonth, $picked) {
     // 렌더링을 위한 데이터 정리
     currentYear = $thisMonth.getFullYear();
     currentMonth = $thisMonth.getMonth();
@@ -75,7 +78,11 @@ const Calender = $container => {
         let $id = getYYYYMMDD(currentYear, currentMonth + 1, i)
         if(currentMonth == today.getMonth() && i == today.getDate()) {
             ele.innerHTML += `<div class="date current today" id=${$id}>${i}</div>`
-        } else {
+        } 
+        else if ($id === $picked) {
+          ele.innerHTML += `<div class="date current picked" id=${$id}>${i}</div>`
+        }
+        else {
             ele.innerHTML += `<div class="date current" id=${$id}>${i}</div>`
         }
       }
